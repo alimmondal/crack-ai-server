@@ -22,12 +22,26 @@ const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY});
 
 // main();
 
+const form = `
+<form method="POST" action="/">
+<textarea name="prompt" id="prompt"></textarea>
+<button type="submit">Generate text</button>
+</form>
+
+`
+
 app.get("/prompt", async (req, res) => {
+  res.send(form)
+})
+
+app.post("/prompt", async (req, res) => {
   const response = await ai.models.generateContent({
     model: 'gemini-2.0-flash-001',
     contents: 'Why is the sky blue?',
   });
-  console.log(response.text);
+  // console.log(response.text);
+  const text = response.text;
+  res.send({data: text, status:200})
 })
 
 
